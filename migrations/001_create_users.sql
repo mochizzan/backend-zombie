@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
     player_id VARCHAR(64) NOT NULL UNIQUE,
     username VARCHAR(64) NOT NULL,
     nickname VARCHAR(64) NOT NULL,
-    role ENUM('survival', 'killer') NOT NULL DEFAULT 'survival',
+    role ENUM('guest', 'admin', 'owner') NOT NULL DEFAULT 'guest',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at DATETIME NULL,

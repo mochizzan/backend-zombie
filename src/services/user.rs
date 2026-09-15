@@ -3,11 +3,11 @@ use crate::errors::AppError;
 use crate::models::user::{User, CreateUser, UpdateUser};
 
 pub async fn create_user(pool: &MySqlPool, data: CreateUser) -> Result<User, AppError> {
-    let role = data.role.unwrap_or_else(|| "survival".to_string());
+    let role = data.role.unwrap_or_else(|| "guest".to_string());
     // Validate role
-    if role != "survival" && role != "killer" {
+    if role != "guest" && role != "admin" && role != "owner" {
         return Err(AppError::Validation(
-            "Role must be 'survival' or 'killer'".to_string(),
+            "Role must be 'guest', 'admin', or 'owner'".to_string(),
         ));
     }
     // Upsert by player_id
@@ -53,9 +53,9 @@ pub async fn update_user(
     let username = data.username.unwrap_or(existing.username);
     let nickname = data.nickname.unwrap_or(existing.nickname);
     let role = data.role.unwrap_or(existing.role);
-    if role != "survival" && role != "killer" {
+    if role != "guest" && role != "admin" && role != "owner" {
         return Err(AppError::Validation(
-            "Role must be 'survival' or 'killer'".to_string(),
+            "Role must be 'guest', 'admin', or 'owner'".to_string(),
         ));
     }
     sqlx::query(
